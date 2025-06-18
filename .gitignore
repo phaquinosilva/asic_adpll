@@ -17,3 +17,20 @@ matlab/*.txt
 matlab/new/*.txt
 *.orig
 
+sim/questasim/work/*
+*.log
+*.ini
+*transcript*
+*.wlf
+
+sim/xcelium/.simvision/*
+sim/xcelium/waves.shm/*
+sim/xcelium/xcelium.d/*
+*.sdf.X
+*.diag
+*.history
+*.key
+*.args
+*.env
+
+synth/*

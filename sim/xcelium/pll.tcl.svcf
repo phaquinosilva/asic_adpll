@@ -1,0 +1,191 @@
+# SimVision Command Script (qua jun 18 00:20:40 -03 2025)
+#
+# Version 23.09.s013
+#
+# You can restore this configuration with:
+#
+#      xrun -smartorder -lwdgen -sdf_cmd_file /home/ciinovador/pedro.aquino/work/adpll/scripts/sdf.cmd /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Front_End/verilog/tcbn65lpbwp7tlvt_141a/tcbn65lpbwp7tlvt.v -linedebu -access +rwc -f file_list_annotated.f -s -input /home/ciinovador/pedro.aquino/work/adpll/sim/xcelium/pll.tcl
+#
+
+
+#
+# Preferences
+#
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set plugin-enable-groupscope 0
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+
+#
+# Simulator
+#
+database require simulator -hints {
+	simulator "xrun -smartorder -lwdgen -sdf_cmd_file /home/ciinovador/pedro.aquino/work/adpll/scripts/sdf.cmd /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Front_End/verilog/tcbn65lpbwp7tlvt_141a/tcbn65lpbwp7tlvt.v -linedebu -access +rwc -f file_list_annotated.f -gui -s -input pll.tcl"
+}
+#
+# Groups
+#
+catch {group new -name ctrl -overlay 0}
+catch {group new -name PDet -overlay 0}
+group using ctrl
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {simulator::[format {tb_ADPLL.adpll.enable_i}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.reset_i}]} ]
+group using PDet
+group set -overlay 0
+group set -comment {}
+group clear 0 end
+
+group insert \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.count_delayed_c[0:15]}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.error_2s_comp_c[4:0]}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.error_bin_r[3:0]}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.error_taps_r[1:15]}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.error_taps_buff_r[1:15]}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.gen_q_r}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.ref_q_r}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.count_c}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.sign_c}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.done_c}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.sign_delay_r}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.clear_tdl_c}]} ] \
+    [subst  {simulator::[format {tb_ADPLL.adpll.testPDet.which_first_c}]} ]
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Design Browser windows
+#
+if {[catch {window new WatchList -name "Design Browser 1" -geometry 730x500+261+33}] != ""} {
+    window geometry "Design Browser 1" 730x500+261+33
+}
+window target "Design Browser 1" on
+browser using {Design Browser 1}
+browser set -scope [subst  {simulator::[format {tb_ADPLL.adpll.testPDet}]} ]
+browser set \
+    -signalsort name
+browser yview see [subst  {simulator::[format {tb_ADPLL.adpll.testPDet}]} ]
+browser timecontrol set -lock 0
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1920x1016+-1+26}] != ""} {
+    window geometry "Waveform 1" 1920x1016+-1+26
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar visibility partial
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units ps \
+    -valuewidth 133
+waveform baseline set -time 0
+
+
+set groupId0 [waveform add -groups ctrl]
+waveform hierarchy collapse $groupId0
+
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.ref_clk_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.gen_div8_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.gen_clk_o}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.dco_cc_o[7:0]}]}
+	} ]]
+waveform format $id -trace analogSampleAndHold
+waveform axis range $id -for default -min -1 -max 1 -scale linear
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.error_o[7:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.ki_i[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{simulator::[format {tb_ADPLL.adpll.kp_i[2:0]}]}
+	} ]]
+
+set groupId0 [waveform add -groups PDet]
+set gpGlist0 [waveform hierarchy contents $groupId0]
+set gpID0 [lindex $gpGlist0 0]
+foreach {name attrs} [subst  {
+    {simulator::[format {tb_ADPLL.adpll.testPDet.count_delayed_c[0:15]}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.error_2s_comp_c[4:0]}]} {-radix %b}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.error_bin_r[3:0]}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.error_taps_r[1:15]}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.error_taps_buff_r[1:15]}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.gen_q_r}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.ref_q_r}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.count_c}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.sign_c}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.done_c}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.sign_delay_r}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.clear_tdl_c}]} {}
+    {simulator::[format {tb_ADPLL.adpll.testPDet.which_first_c}]} {}
+}] childcmds {
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+    {}
+} {
+    set expected [ join [waveform signals -format fullpath $gpID0] ]
+    if {[string equal $name $expected] || $name == "cdivider"} {
+        if {$attrs != ""} {
+            eval waveform format $gpID0 $attrs
+        }
+        if { $childcmds != ""} {
+            eval $childcmds
+        }
+    }
+    set gpGlist0 [lrange $gpGlist0 1 end]
+    set gpID0 [lindex $gpGlist0 0]
+}
+
+
+waveform xview limits 0 13564ps
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 730x250+261+564
+
+#
+# Layout selection
+#
+
