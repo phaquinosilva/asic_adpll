@@ -1,24 +1,15 @@
 set USER pedro.aquino
 set HOME /home/ciinovador/
 
-set_db init_lib_search_path /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/
+set_db init_lib_search_path <REDACTED>
 
 set_db init_hdl_search_path ../../rtl
 
-read_libs { Front_End/timing_power_noise/NLDM/tcbn65lpbwp7tlvt_220a/tcbn65lpbwp7tlvttc.lib }
+read_libs { <REDACTED> }
 
 read_physical -lef {
-  Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_5lmT1.lef
+  <REDACTED>
 }
-
-# More LEFs
-# /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_5lmT2.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_6lmT1.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_6lmT2.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_7lmT1.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_7lmT2.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_8lmT1.lef
-#  /home/ciinovador/pedro.aquino/work/tsmc65lp_workspace/tcbn65lpbwp7tlvt_220a_FE/TSMCHOME/digital/Back_End/lef/tcbn65lpbwp7tlvt_141a/lef/tcbn65lpbwp7tlvt_8lmT2.lef
 
 
 set DESIGN PhaseDetectorDL
@@ -27,8 +18,8 @@ set DESIGN PhaseDetectorDL
 read_hdl PhaseDetectorDL.v 
 elaborate $DESIGN
 
-set_db [get_db lib_cells lib_cell:default_emulate_libset_max/tcbn65lpbwp7tlvttc/DEL*] .dont_touch true
-set_db [get_db lib_cells lib_cell:default_emulate_libset_max/tcbn65lpbwp7tlvttc/DEL*] .avoid false
+set_db [get_db lib_cells lib_cell:default_emulate_libset_max/<REDACTED>/DEL*] .dont_touch true
+set_db [get_db lib_cells lib_cell:default_emulate_libset_max/<REDACTED>/DEL*] .avoid false
 
 read_sdc ../constraints/constraints.sdc
 
